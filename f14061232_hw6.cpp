@@ -1,4 +1,4 @@
-﻿// f14061232_hw6.cpp : 此檔案包含 'main' 函式。程式會於該處開始執行及結束執行。
+// f14061232_hw6.cpp : 此檔案包含 'main' 函式。程式會於該處開始執行及結束執行。
 //
 
 #include <iostream>
@@ -9,6 +9,9 @@
 #include <stdio.h>      /* printf */
 #include <time.h>       /* clock_t, clock, CLOCKS_PER_SEC */
 #include <math.h>       /* sqrt */
+#include <cstdio>
+#include <ctime>
+
 using namespace::std;
 
 void reverse(int arr[], int n)
@@ -24,7 +27,7 @@ int GenRanInt(int a_min, int a_max) {
 int is_A_desc(int* A, int n) {
     for (int i = 0; i < n; i++)
     {
-        int j=0;
+        int j=1;
         if (A[i] >= A[j] && i < j)
         {
             cout << "order OK!";
@@ -312,11 +315,12 @@ void radixSort(int* array, int n) {
 int main()
 {
     int i, j, k;
-    clock_t t;
-    int f;
-
     int is_p, n, a_min, a_max, rs;
     float t_is, t_ms, t_hs, t_qs, t_cs, t_rs, t_bs;
+    std::clock_t start;
+    double duration;
+
+
     cout << "Input [is_p,n,a_min,a_max,rs]= ";
     cin >> is_p >> n >> a_min >> a_max >> rs;
     srand(rs);
@@ -326,14 +330,14 @@ int main()
     for (i = 0; i < n; ++i) {
         A[i] = GenRanInt(a_min, a_max);
     }
-    printout_arrary(A, n);
 
     duplicate_array(A, B, n);
-t = clock();
+start = std::clock();
     ins_sort(A, n);
-t = clock() - t;
+t_is = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+
     reverse(A, n);
-printf ("It took me %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
+
     is_A_desc(A, n);
     while (is_A_desc(A, n) == 0) {
         cout << "!!INSERTION SORT WRONG!!";
@@ -345,11 +349,12 @@ printf ("It took me %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
 
 
     duplicate_array(B, A, n);
- t = clock();
-    mg_sort(A, 1, n);
-  t = clock() - t;
+start = std::clock();
+    mg_sort(A, 0, n-1);
+ t_ms= ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+
       reverse(A, n);
-  printf ("It took me %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
+
     is_A_desc(A, n);
     while (is_A_desc(A, n) == 0) {
         cout << "!!MERGE SORT WRONG!!";
@@ -361,11 +366,13 @@ printf ("It took me %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
 
 
     duplicate_array(A, B, n);
- t = clock();
+start = std::clock();
     heap_sort(A, n);
-    t = clock() - t;
+ t_hs = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+
+
         reverse(A, n);
-printf ("It took me %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
+
     is_A_desc(A, n);
     while (is_A_desc(A, n) == 0) {
         cout << "!!HEAP SORT WRONG!!";
@@ -377,11 +384,11 @@ printf ("It took me %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
 
 
     duplicate_array(B, A, n);
- t = clock();
+start = std::clock();
     quick_sort(A, 0, n - 1);
-    t = clock() - t;
+  t_qs = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
         reverse(A, n);
-printf ("It took me %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
+
     is_A_desc(A, n);
     while (is_A_desc(A, n) == 0) {
         cout << "!!QUICK SORT WRONG!!";
@@ -393,11 +400,12 @@ printf ("It took me %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
 
 
     duplicate_array(B, A, n);
- t = clock();
+start = std::clock();
     countingSort(A, n);
-    t = clock() - t;
+  t_cs = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+
         reverse(A, n);
-printf ("It took me %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
+
         is_A_desc(A, n);
     while (is_A_desc(A, n) == 0) {
         cout << "!!COUNTING SORT WRONG!!";
@@ -407,11 +415,11 @@ printf ("It took me %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
         printout_arrary(A, n);
     }
 
- t = clock();
+start = std::clock();
     radixSort(A, n);
-    t = clock() - t;
+ t_rs = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
         reverse(A, n);
-printf ("It took me %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
+
     is_A_desc(A, n);
     while (is_A_desc(A, n) == 0) {
         cout << "!!RADIX SORT WRONG!!";
@@ -421,11 +429,12 @@ printf ("It took me %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
         printout_arrary(A, n);
     }
 
- t = clock();
+start = std::clock();
     bucketSort(A, n);
-    t = clock() - t;
+ t_bs = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+
     reverse(A, n);
-printf ("It took me %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
+
     is_A_desc(A, n);
     while (is_A_desc(A, n) == 0) {
         cout << "!!BUCKET SORT WRONG!!";
@@ -435,9 +444,7 @@ printf ("It took me %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
         printout_arrary(A, n);
     }
 
-
-    cout << n<<' '<<a_min << ' ' << a_max << ' ' << rs << ' ' << t_is << ' ' << t_ms << ' ' << t_hs << ' ' << t_qs << ' ' << t_cs << ' ' << t_rs << ' ' << t_bs;
+cout << n<<' '<<a_min << ' ' << a_max << ' ' << rs << ' ' << t_is << ' ' << t_ms << ' ' << t_hs << ' ' << t_qs << ' ' << t_cs << ' ' << t_rs << ' ' << t_bs;
 
     return 0;
 }
-
